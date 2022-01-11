@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+  <title>React App</title>
+  </head>
+
+
+
+<body>
+ <!-- -----------------------------------------------------------------  -->
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+  const taskList = document.querySelector('.list')
+  const addButton = document.querySelector('.add-task')
+  const input = document.querySelector('.input-task')
+
+  let tasks = ['Я хочу сделать список задач']
+  
+  function handleClickRemove(index) {
+    tasks.splice(index, 1)
+    render()
+  }
+
+  function handleClickAdd() {
+    const value = input.value.trim()
+    if (value) {
+      tasks.push(value)
+      input.value = ''
+      render()
+    }
+  }
+
+  addButton.addEventListener('click', handleClickAdd)
+  taskList.addEventListener('click', (e) => {
+    const elem = e.target
+    if (elem.classList.contains('btn')) {
+      const index = elem.getAttribute('data-item')
+      handleClickRemove(index)
+      render()
+    }
+  })
+
+  function render() {
+    taskList.innerHTML = ''
+    tasks.forEach((task, index) => {
+      let liElement = document.createElement('li');
+      let buttonElement = document.createElement('button');
+
+      liElement.textContent = `${task}`;
+      liElement.appendChild(buttonElement);
+      
+      buttonElement.setAttribute('data-item', index);
+      buttonElement.setAttribute('class', 'btn');
+      buttonElement.textContent = ` x `;
+
+      taskList.appendChild(liElement);
+    })
+  }
+  render()
+})
+  </script>
+<!-- ------------------------------------------------------   -->
+<div>
+  <ul class="list"></ul>
+  <input  class="input-task" type="text" placeholder="Текст задачи...">
+  <button onclick="handleClickAdd" class="add-task">Добавить</button>
+</div>
+
+</body>
+</html>
+
+
